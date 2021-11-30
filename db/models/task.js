@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const task = new mongoose.Schema({
-    id : {type:String, required:true},
-    task :{type:String ,required: true},
+    name : {type:String, required:true},
+    isDeleted: { type: Boolean, default: false },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 })
 module.exports=mongoose.model("Task",task);

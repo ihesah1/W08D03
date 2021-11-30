@@ -12,10 +12,12 @@ app.use(cors());
 
 const roleRouter = require('./routers/routes/role');
 const userRouter = require("./routers/routes/user");
+const taskRouter = require("./routers/routes/task");
 
 
-app.use(roleRouter)
+app.use(roleRouter);
 app.use(userRouter);
+app.use(taskRouter);
 
 
 const PORT = process.env.PORT || 4000;

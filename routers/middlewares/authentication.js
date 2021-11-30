@@ -6,9 +6,6 @@ const authentication = (req, res ,next ) => {
         
 
 
-
-
-
         next();
     }catch(error){
         res.status(403).json(error);

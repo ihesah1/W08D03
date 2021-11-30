@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 const SALT = Number(process.env.SALT); //salt مقدار الراندوم فاليوالي بضيفه ع الهاش حقتي
 //نسوي الاوثنتكيشن
- //اول شي نسوي الهاش بالريجستر
+ 
+//اول شي نسوي الهاش بالريجستر
 const register = async (req, res) => {
     const { email, password, role } = req.body;
     
