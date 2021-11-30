@@ -1,4 +1,4 @@
-const todoModel = require("./../../db/models/todo");
+const todoModel = require("./../../db/models/task");
 
 const createTodo = (req, res) => {
   const newTodo = new todoModel({ name: req.body.name, user: req.token.id });
@@ -25,7 +25,7 @@ const getTodos = (req, res) => {
   };
 
 
-//get todos by id
+//get by id
 const getTodosById = (req, res) => {
     const { id } = req.params;
     todoModel
@@ -41,7 +41,6 @@ const getTodosById = (req, res) => {
         res.status(400).json(err);
       });
   };
-
  //delete todo 
 const deleteTodo = (req, res) => {
     const { id } = req.params;
@@ -58,7 +57,6 @@ const deleteTodo = (req, res) => {
         res.status(400).json(err);
       });
   };
- 
 //update todo
 const updateTodo = (req, res) => {
     const { name } = req.body;
@@ -77,6 +75,7 @@ const updateTodo = (req, res) => {
       });
   };
   module.exports = {
+
     getTodos,
     createTodo,
     deleteTodo,

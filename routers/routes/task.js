@@ -1,15 +1,12 @@
 const express = require('express')
-const  {register ,login} = require('./../controllers/task')
+const  {getTodos ,createTodo, deleteTodo, updateTodo, getTodosById} = require('./../controllers/task')
+const todoRouter = express.Router()
+const authentication = require("../middlewares/authentication");
+todoRouter.get("/todos",authentication, getTodos);
+todoRouter.get("/todos/:id",authentication, getTodosById);
+todoRouter.post("/todo",authentication, createTodo);
+todoRouter.put("/todo/:id", authentication, updateTodo);
+todoRouter.delete("/todo/:id",authentication, deleteTodo);
 
 
-const taskUser = express.Router();
-
-//get user functions 
-
-//userRouter.post("/
-//userRouter.post("/login", login);
-
-
-
-///export 
-//module.exports = userRouter;
+module.exports = todoRouter;

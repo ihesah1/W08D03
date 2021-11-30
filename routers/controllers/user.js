@@ -2,9 +2,33 @@ const userModel = require("./../../db/models/user");
 const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 const SALT = Number(process.env.SALT); //salt مقدار الراندوم فاليوالي بضيفه ع الهاش حقتي
-//نسوي الاوثنتكيشن
+
  
+const getUsers = (req, res) => {
+  userModel
+  .find({})
+  .then((result) => {
+    res.status(200).json(result);
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
+};
+
+const removeUser = (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  userModel.findByIdAndDelete(id)
+    .then(() => {
+      res.status(200).json("user removed");
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+//نسوي الاوثنتكيشن1 
 //اول شي نسوي الهاش بالريجستر
+
 const register = async (req, res) => {
     const { email, password, role } = req.body;
     
