@@ -12,7 +12,7 @@ const createRole = (req, res) => {
       res.status(400).json(err);
     });
 };
-const roles = (req, res) => {
+ const roles = (req, res) => {
   roleModel
     .find({})
     .then((result) => {
@@ -23,7 +23,7 @@ const roles = (req, res) => {
     });
 };
 
-// exporttt
+
 module.exports = {
   createRole,
   roles,

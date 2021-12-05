@@ -1,7 +1,5 @@
 const roleModel = require("../../db/models/role");
 
-
-
 const authorization = async(req, res, next) => {
     try {
         const roleID = req.token.role;
@@ -15,6 +13,5 @@ const authorization = async(req, res, next) => {
         res.status(403).json(err);
     }
 };
-
 
 module.exports = authorization;

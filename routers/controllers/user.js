@@ -2,8 +2,6 @@ const userModel = require("./../../db/models/user");
 const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 const SALT = Number(process.env.SALT); //salt مقدار الراندوم فاليوالي بضيفه ع الهاش حقتي
-
- 
 const getUsers = (req, res) => {
   userModel
   .find({})
@@ -14,8 +12,7 @@ const getUsers = (req, res) => {
     res.status(400).json(err);
   });
 };
-
-const removeUser = (req, res) => {
+const removeUser =(req ,res)=>{
   const id = req.params.id;
   console.log(id);
   userModel.findByIdAndDelete(id)
@@ -25,34 +22,31 @@ const removeUser = (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-};
-//نسوي الاوثنتكيشن1 
-//اول شي نسوي الهاش بالريجستر
-
-const register = async (req, res) => {
-    const { email, password, role } = req.body;
-    
-    const savedEmail = email.toLowerCase();
-    const hashedPassword = await bcrypt.hash(password, SALT);
-    
-    const newUser = new userModel({
-      email: savedEmail,
-      password: hashedPassword,
-      role
-    });
-  
-    newUser
-      .save()
-      .then((result) => {
-        res.status(201).json(result);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
   };
+//نسوي الاوثنتكيشن/1 
+///اول شي نسوي الهاش بالريجستر
+const register = async (req, res) => {
+  const { email, password, role } = req.body;
+  const SALT = Number(process.env.SALT);
+  const savedEmail = email.toLowerCase();
+  const hashedPassword = await bcrypt.hash(password, SALT);
+  const newUser = new userModel({
+    email: savedEmail,
+    password: hashedPassword,
+    role,
+  });
 
-  
-  // logiiin
+  newUser
+    .save()
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
+  ////logiin one user 
   const login = (req, res) => {
     const { email, password } = req.body;
     const SECRET_KEY = process.env.SECRET_KEY;
@@ -61,19 +55,20 @@ const register = async (req, res) => {
       .then(async (result) => {
         if (result) {
           if (email === result.email) {
-            const payload={
-              role:result.role
-            }
-            const options={
-              expiresIn: 60*60
-            }
-            const token = await jwt.sign(payload, SECRET_KEY, options)
-            console.log(token);
-  
-            const unhashPassword = await bcrypt.compare(password, result.password)
-  
+            const payload = {
+              id: result._id,
+              role: result.role,
+            };
+            const options = {
+              expiresIn: 60 * 60,
+            };
+            const token = jwt.sign(payload, SECRET_KEY, options);
+            const unhashPassword = await bcrypt.compare(
+              password,
+              result.password
+            );
             if (unhashPassword) {
-              res.status(200).json(result);
+              res.status(200).json({result, token});
             } else {
               res.status(400).json("invalid email or password");
             }
@@ -88,4 +83,8 @@ const register = async (req, res) => {
         res.status(400).json(err);
       });
   };
-  module.exports = { register, login };
+  module.exports = { 
+    register,
+     login,
+      getUsers,
+      removeUser };

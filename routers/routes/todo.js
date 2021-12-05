@@ -1,7 +1,8 @@
 const express = require('express')
-const  {getTodos ,createTodo, deleteTodo, updateTodo, getTodosById} = require('./../controllers/task')
+const  {getTodos ,createTodo, deleteTodo, updateTodo, getTodosById} = require('./../controllers/todo')
 const todoRouter = express.Router()
 const authentication = require("../middlewares/authentication");
+
 todoRouter.get("/todos",authentication, getTodos);
 todoRouter.get("/todos/:id",authentication, getTodosById);
 todoRouter.post("/todo",authentication, createTodo);
